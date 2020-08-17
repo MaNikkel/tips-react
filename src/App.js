@@ -5,10 +5,15 @@ import { Tip } from "./components/Tip.jsx";
 const AppStyled = styled.div`
   position: absolute;
   left: 50%;
-  top: 80%;
+  top: 60%;
 
 `
 
+const StyledTip = styled.div`
+  background: red;
+  /* padding: 10px;
+  transform: translateY(-10px); */
+`
 
 function App() {
   const tipRef = useRef(null);
@@ -21,7 +26,11 @@ function App() {
       <AppStyled ref={tipRef} onClick={() => {setShow(!show)}}>
         teste
       </AppStyled>
-      <Tip reference={tipRef} hide={show} direction="down"/>
+      <Tip reference={tipRef} hide={show} direction="right">
+        <StyledTip>
+          teste
+        </StyledTip>
+      </Tip>
     </div>
   );
 }

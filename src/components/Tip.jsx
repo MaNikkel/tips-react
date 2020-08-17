@@ -4,8 +4,7 @@ import styled, { css } from 'styled-components';
 
 
 
-const TipStyledCss = ({ offsetTop, offsetLeft, offsetHeight, directionRule }) => css`
-    background: red;
+const TipStyledCss = ({ directionRule }) => css`
     display: inline-block;
     position: absolute;
 
@@ -25,8 +24,7 @@ const TipStyledCss = ({ offsetTop, offsetLeft, offsetHeight, directionRule }) =>
 
 const TipStyled = styled.div`${TipStyledCss}`
 
-export const Tip = ({ reference, hide, delay, interval, direction } ) => {
-
+export const Tip = ({ reference, hide, delay, interval, direction, children } ) => {
     const [ visible, setVisible ] = useState(false);
     const [ directionRule, setDirectionRule ] = useState({
         notVisible: {
@@ -49,7 +47,6 @@ export const Tip = ({ reference, hide, delay, interval, direction } ) => {
 
     useEffect(() => {
         const { offsetTop, offsetLeft, offsetHeight, offsetWidth } = reference.current;
-        console.log(reference)
         setCurrentOffsets({offsetTop, offsetLeft, offsetHeight, offsetWidth});
         setTimeout(() => {
             setVisible(true);
@@ -74,6 +71,28 @@ export const Tip = ({ reference, hide, delay, interval, direction } ) => {
                     visible: {
                         vertical: `${currentOffsets.offsetTop - currentOffsets.offsetHeight}px`,
                         horizontal: `${currentOffsets.offsetLeft}px`
+                    }});
+                break;
+            case "left":
+                setDirectionRule({
+                    notVisible: {
+                        vertical: `${currentOffsets.offsetTop}px`, 
+                        horizontal: `${currentOffsets.offsetLeft + currentOffsets.offsetWidth + 20}px`
+                    },
+                    visible: {
+                        vertical: `${currentOffsets.offsetTop}px`, 
+                        horizontal: `${currentOffsets.offsetLeft + currentOffsets.offsetWidth}px`
+                    }});
+                break;
+            case "right":
+                setDirectionRule({
+                    notVisible: {
+                        vertical: `${currentOffsets.offsetTop}px`, 
+                        horizontal: `${currentOffsets.offsetLeft - currentOffsets.offsetWidth - 20}px`
+                    },
+                    visible: {
+                        vertical: `${currentOffsets.offsetTop}px`, 
+                        horizontal: `${currentOffsets.offsetLeft - currentOffsets.offsetWidth}px`
                     }});
                 break;
             default:
@@ -103,8 +122,9 @@ export const Tip = ({ reference, hide, delay, interval, direction } ) => {
                 offsetTop={currentOffsets.offsetTop} 
                 offsetLeft={currentOffsets.offsetLeft} 
                 offsetHeight={currentOffsets.offsetHeight}
-                offsetWidth={currentOffsets.offsetWidth}>
-                teste
+                offsetWidth={currentOffsets.offsetWidth}
+            >
+                    {children}
             </TipStyled>
         </>
     )
@@ -115,7 +135,8 @@ Tip.propTypes = {
     hide: PropTypes.bool, 
     delay: PropTypes.number, 
     interval: PropTypes.number,
-    direction: PropTypes.string
+    direction: PropTypes.string,
+    children: PropTypes.any
 }
 
 Tip.defaultProps = {
