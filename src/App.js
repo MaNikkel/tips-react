@@ -21,7 +21,7 @@ function App() {
       <AppStyled ref={tipRef} onClick={() => {setShow(!show)}}>
         teste
       </AppStyled>
-      <Tip reference={tipRef} hide={show}/>
+      <Tip reference={tipRef} hide={show} direction="down"/>
     </div>
   );
 }
