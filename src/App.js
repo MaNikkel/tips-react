@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useRef, useState } from 'react';
+import styled from "styled-components";
+import { Tip } from "./components/Tip.jsx";
+
+const AppStyled = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 80%;
+
+`
+
 
 function App() {
+  const tipRef = useRef(null);
+  const [show, setShow] = useState(true);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      
+      <AppStyled ref={tipRef} onClick={() => {setShow(!show)}}>
+        teste
+      </AppStyled>
+      <Tip reference={tipRef} hide={show}/>
     </div>
   );
 }
