@@ -13,6 +13,7 @@ const TipStyledCss = ({ directionRule }) => css`
         top: ${directionRule.notVisible.vertical};
         left: ${directionRule.notVisible.horizontal};
         opacity: 0;
+        pointer-events: none;
     }
     &.visible{
         opacity: 1;
@@ -24,7 +25,7 @@ const TipStyledCss = ({ directionRule }) => css`
 
 const TipStyled = styled.div`${TipStyledCss}`
 
-export const Tip = ({ reference, hide, delay, interval, direction, children } ) => {
+export const Tip = ({ reference, show, delay, interval, direction, children } ) => {
     const [ visible, setVisible ] = useState(false);
     const [ directionRule, setDirectionRule ] = useState({
         notVisible: {
@@ -110,8 +111,9 @@ export const Tip = ({ reference, hide, delay, interval, direction, children } ) 
     }, [direction, currentOffsets])
 
     useEffect(() => {
-        setVisible(false)
-    }, [hide])
+        console.log(show)
+        setVisible(show)
+    }, [show])
 
 
     return (
@@ -131,8 +133,8 @@ export const Tip = ({ reference, hide, delay, interval, direction, children } ) 
 }
 
 Tip.propTypes = {
-    reference: PropTypes.any, 
-    hide: PropTypes.bool, 
+    reference: PropTypes.any.isRequired, 
+    show: PropTypes.bool, 
     delay: PropTypes.number, 
     interval: PropTypes.number,
     direction: PropTypes.string,
@@ -140,7 +142,7 @@ Tip.propTypes = {
 }
 
 Tip.defaultProps = {
-    hide: false,
+    show: false,
     delay: 1000,
     interval: 0,
     direction: "up"
